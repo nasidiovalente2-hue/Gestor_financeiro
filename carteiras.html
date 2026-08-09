@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>Carteiras - Gestão Financeira</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#08090d;
+    color:#f5f5f5;
+    font-family:Arial,sans-serif;
+}
+
+header{
+    min-height:82px;
+    border-bottom:2px solid #292b33;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 35px;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:bold;
+}
+
+button{
+    border:none;
+    border-radius:12px;
+    padding:13px 18px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#242731;
+    color:white;
+}
+
+.btn-blue{
+    background:#286cff;
+}
+
+.btn-red{
+    background:#e53935;
+}
+
+main{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+.section{
+    background:#111218;
+    border:2px solid #292b33;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:22px;
+}
+
+h1{
+    font-size:36px;
+    margin:0 0 8px;
+}
+
+h2{
+    margin:0 0 18px;
+}
+
+.description{
+    color:#858894;
+    line-height:1.5;
+}
+
+.form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:22px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:15px;
+    border-radius:11px;
+    border:2px solid #30323b;
+    background:#08090d;
+    color:white;
+    font-size:16px;
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.full{
+    grid-column:1 / -1;
+}
+
+.wallets{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.wallet{
+    background:#08090d;
+    border:2px solid #292b33;
+    border-radius:18px;
+    padding:21px;
+}
+
+.wallet-name{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.wallet-info{
+    color:#9b9eaa;
+    margin:7px 0;
+}
+
+.wallet-id{
+    background:#111218;
+    padding:11px;
+    border-radius:9px;
+    word-break:break-word;
+}
+
+.wallet-balance{
+    font-size:21px;
+    font-weight:bold;
+    margin:14px 0;
+}
+
+.wallet-actions{
+    margin-top:16px;
+}
+
+.empty{
+    color:#777b87;
+    padding:18px 0;
+}
+
+.notice{
+    padding:12px;
+    background:#191b23;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+#app{
+    display:none;
+}
+
+.blue{
+    color:#4d83ff;
+}
+
+@media(max-width:750px){
+
+    header{
+        padding:14px 18px;
+    }
+
+    .wallets,
+    .form{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    main{
+        padding:20px;
+    }
+
+    h1{
+        font-size:30px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="app">
+
+<header>
+
+    <div class="logo">
+        💼 Carteiras
+    </div>
+
+    <button
+        class="btn-blue"
+        onclick="voltarDashboard()">
+
+        ← Dashboard
+
+    </button>
+
+</header>
+
+
+<main>
+
+
+<div class="section">
+
+    <h1>
+        Nova carteira
+    </h1>
+
+    <div class="description">
+        Cadastre banco, carteira física,
+        digital, cripto ou investimento.
+    </div>
+
+
+    <div class="form">
+
+        <input
+            id="nomeCarteira"
+            type="text"
+            placeholder="Nome da carteira"
+        >
+
+
+        <select id="tipoCarteira">
+
+            <option value="">
+                Selecione o tipo
+            </option>
+
+            <option value="Banco">
+                Banco
+            </option>
+
+            <option value="Carteira física">
+                Carteira física
+            </option>
+
+            <option value="Carteira digital">
+                Carteira digital
+            </option>
+
+            <option value="Criptomoeda">
+                Criptomoeda
+            </option>
+
+            <option value="Investimento">
+                Investimento
+            </option>
+
+            <option value="Outro">
+                Outro
+            </option>
+
+        </select>
+
+
+        <input
+            id="moedaCarteira"
+            type="text"
+            placeholder="Moeda (ex.: AOA, USD, EUR)"
+        >
+
+
+        <input
+            id="identificadorCarteira"
+            type="text"
+            placeholder="Endereço / identificador"
+        >
+
+
+        <textarea
+            id="observacaoCarteira"
+            class="full"
+            placeholder="Observação">
+        </textarea>
+
+
+        <button
+            class="btn-blue full"
+            onclick="salvarCarteira()">
+
+            Salvar carteira
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="carteiraMensagem"
+        class="notice"
+        style="display:none">
+    </div>
+
+</div>
+
+
+<div class="section">
+
+    <h2>
+        Minhas carteiras
+    </h2>
+
+    <div
+        id="listaCarteiras"
+        class="wallets">
+
+        <div class="empty">
+            Carregando...
+        </div>
+
+    </div>
+
+</div>
+
+
+</main>
+
+</div>
+
+
+<script
+    type="module"
+    src="./script.js">
+</script>
+
+</body>
+</html>
