@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestão Financeira</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#08090d;
+    color:#f5f5f5;
+    font-family:Arial,sans-serif;
+}
+
+header{
+    min-height:82px;
+    border-bottom:2px solid #292b33;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 35px;
+    gap:10px;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:bold;
+}
+
+.menu{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    border-radius:12px;
+    padding:13px 18px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#242731;
+    color:white;
+}
+
+.btn-blue{
+    background:#286cff;
+    color:white;
+}
+
+.btn-red{
+    background:#e53935;
+    color:white;
+}
+
+main{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    font-size:36px;
+    margin:0 0 8px;
+}
+
+.subtitle{
+    color:#858894;
+    line-height:1.5;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-top:25px;
+}
+
+.card,
+.section{
+    background:#111218;
+    border:2px solid #292b33;
+    border-radius:20px;
+}
+
+.card{
+    padding:22px;
+}
+
+.card-title{
+    color:#858894;
+}
+
+.card-value{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:10px;
+    word-break:break-word;
+}
+
+.green{
+    color:#28d17c;
+}
+
+.red{
+    color:#ff5757;
+}
+
+.blue{
+    color:#4d83ff;
+}
+
+.section{
+    padding:24px;
+    margin-top:22px;
+}
+
+.section h2{
+    margin:0 0 18px;
+}
+
+.form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+input,
+select{
+    width:100%;
+    padding:15px;
+    border-radius:11px;
+    border:2px solid #30323b;
+    background:#08090d;
+    color:white;
+    font-size:16px;
+}
+
+.full{
+    grid-column:1 / -1;
+}
+
+.transaction{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:center;
+    border-bottom:1px solid #292b33;
+    padding:15px 0;
+}
+
+.transaction:last-child{
+    border-bottom:none;
+}
+
+.empty{
+    color:#777b87;
+    padding:18px 0;
+}
+
+.notice{
+    padding:12px;
+    background:#191b23;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+#login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:430px;
+    background:#111218;
+    border:2px solid #292b33;
+    border-radius:24px;
+    padding:32px;
+}
+
+.login-box h1{
+    text-align:center;
+    font-size:29px;
+}
+
+.login-box p{
+    text-align:center;
+    color:#858894;
+}
+
+.login-box input{
+    margin-bottom:12px;
+}
+
+.login-buttons{
+    display:grid;
+    gap:10px;
+}
+
+@media(max-width:850px){
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:650px){
+
+    header{
+        padding:14px 18px;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+    main{
+        padding:20px;
+    }
+
+    .cards,
+    .form{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .transaction{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="login">
+
+    <div class="login-box">
+
+        <h1>
+            🔐 Gestão Financeira
+        </h1>
+
+        <p>
+            Entre ou crie a sua conta.
+        </p>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="E-mail"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Senha"
+        >
+
+        <div class="login-buttons">
+
+            <button
+                class="btn-blue"
+                onclick="entrar()">
+
+                Entrar
+
+            </button>
+
+            <button
+                onclick="criarConta()">
+
+                Criar conta
+
+            </button>
+
+        </div>
+
+        <p id="loginMensagem"></p>
+
+    </div>
+
+</div>
+
+
+<div id="app" style="display:none">
+
+<header>
+
+    <div class="logo">
+        💰 Gestão Financeira
+    </div>
+
+    <div class="menu">
+
+        <button
+            class="btn-blue"
+            onclick="abrirCarteiras()">
+
+            💼 Carteiras
+
+        </button>
+
+        <button
+            class="btn-red"
+            onclick="sair()">
+
+            Sair
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <h1>
+        Dashboard
+    </h1>
+
+    <div class="subtitle">
+        Visão geral das suas finanças.
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-title">
+                Saldo
+            </div>
+
+            <div
+                id="saldo"
+                class="card-value blue">
+
+                0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Ganhos
+            </div>
+
+            <div
+                id="ganhos"
+                class="card-value green">
+
+                0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Retiradas
+            </div>
+
+            <div
+                id="retiradas"
+                class="card-value red">
+
+                0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Carteiras
+            </div>
+
+            <div
+                id="totalCarteiras"
+                class="card-value">
+
+                0
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            Resumo por moeda
+        </h2>
+
+        <div id="listaMoedas">
+
+            <div class="empty">
+                Carregando...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            Nova movimentação
+        </h2>
+
+        <div class="form">
+
+            <select id="tipoMovimento">
+
+                <option value="ganho">
+                    Ganho
+                </option>
+
+                <option value="retirada">
+                    Retirada
+                </option>
+
+            </select>
+
+
+            <input
+                id="valorMovimento"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Valor"
+            >
+
+
+            <select
+                id="carteiraMovimento"
+                class="full">
+
+                <option value="">
+                    Selecione uma carteira
+                </option>
+
+            </select>
+
+
+            <input
+                id="dataMovimento"
+                type="date"
+            >
+
+
+            <input
+                id="descricaoMovimento"
+                type="text"
+                placeholder="Descrição"
+            >
+
+
+            <button
+                class="btn-blue full"
+                onclick="salvarMovimento()">
+
+                Salvar movimentação
+
+            </button>
+
+        </div>
+
+        <div
+            id="movimentoMensagem"
+            class="notice"
+            style="display:none">
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            Histórico
+        </h2>
+
+        <div id="listaMovimentos">
+
+            <div class="empty">
+                Nenhuma movimentação registrada.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            Evolução financeira
+        </h2>
+
+        <div class="subtitle">
+            Resumo mensal por moeda.
+        </div>
+
+        <div id="evolucao"></div>
+
+    </div>
+
+</main>
+
+</div>
+
+
+<script
+    type="module"
+    src="./script.js">
+</script>
+
+</body>
+</html>
